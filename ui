@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Import Provider package
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CartPage(),
+    );
+  }
+}
+
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final shop =
+        Provider.of<Shop>(context); // Declaring and initializing shop variable
+
+    void removeFromCart(Food food) {
+      // Implement removal logic here
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Cart"),
+        elevation: 0,
+        backgroundColor: Colors.green,
+      ),
+      body: ListView.builder(
+        itemCount: shop.cart.length,
+        itemBuilder: (context, index) {
+          final Food food = shop.cart[index];
+          final String foodName = food.name;
+          final String foodPrice = food.price.toString();
+
+          return Container(
+            margin: EdgeInsets.only(left: 20, top: 20, right: 20),
+            child: ListTile(
+              title: Text(foodName),
+              subtitle: Text(foodPrice),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => removeFromCart(food),
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Implement pay logic here
+        },
+        child: Icon(Icons.payment),
+      ),
+    );
+  }
+}
+
+class Provider {
+  static of(BuildContext context) {}
+}
+
+// Assuming the following classes
+class Shop {
+  final List<Food> cart;
+
+  Shop(this.cart);
+}
+
+class Food {
+  final String name;
+  final double price;
+
+  Food(this.name, this.price);
+}
